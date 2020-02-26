@@ -1,0 +1,9 @@
+QUESTIONS
+
+bootasm.S
+47: Why is pagebreak required? How exactly does it work?
+51: Why is the segment selector shifted left by 3 bits?
+
+entry.S
+65: Why does the `main` symbol have a high address? Why do all symbols have high addresses?
+    Probably because of the linker script? Need to check.
