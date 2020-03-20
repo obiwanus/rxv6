@@ -67,5 +67,8 @@ Vagrant.configure("2") do |config|
     apt-get update
     apt-get install -y build-essential gdb git gcc-multilib
     apt-get install -y libsdl1.2-dev libtool-bin libglib2.0-dev libz-dev libpixman-1-dev
+
+    bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+    apt-get install -y clang-9
   SHELL
 end
