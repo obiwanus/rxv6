@@ -65,3 +65,5 @@ Cargo.lock
 .vagrant
 qemu
 ubuntu-xenial-16.04-cloudimg-console.log
+
+c_version/build
