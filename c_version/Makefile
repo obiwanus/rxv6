@@ -9,7 +9,7 @@ CFLAGS = \
 	-fno-omit-frame-pointer  \
 	-fno-stack-protector  \
 	-nostdinc \
-	-O2 -Wall -ggdb -Werror -I.
+	-O2 -Wall -ggdb -Werror -Iinclude
 # -fno-pic 		= disable position-independent code
 # -no-pie 		= disable position-independent executable
 # -static		= link statically
