@@ -9,7 +9,7 @@ CFLAGS = \
 	-fno-omit-frame-pointer  \
 	-fno-stack-protector  \
 	-nostdinc \
-	-O2 -Wall -ggdb -Werror -Iinclude
+	-O2 -Wall -ggdb -Werror -Iinclude -m32
 # -fno-pic 		= disable position-independent code
 # -no-pie 		= disable position-independent executable
 # -static		= link statically
@@ -21,7 +21,7 @@ CFLAGS = \
 $(shell rm -rf build && mkdir -p build)
 
 build/bootblock: boot/loader.asm boot/loader_main.c
-	nasm -f elf64 -g boot/loader.asm -o build/loader.o
+	nasm -f elf32 -g boot/loader.asm -o build/loader.o
 	$(CC) $(CFLAGS) -c boot/loader_main.c -o build/loader_main.o
-	ld -N -e start -Ttext 0x7C00 build/loader.o build/loader_main.o -o build/bootblock
+	ld -m elf_i386 -N -e start -Ttext 0x7C00 build/loader.o build/loader_main.o -o build/bootblock
 

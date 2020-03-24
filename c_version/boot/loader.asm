@@ -1,6 +1,9 @@
 ; Protection Enable flag
 %define CR0_PE      0x00000001
 
+%define SEG_KERNEL_CODE 1
+%define SEG_KERNEL_DATA 2
+
 ; Start the first CPU: switch to 32-bit protected mode, jump into C.
 ; The BIOS loads this code from the first sector of the hard disk into
 ; memory at physical address 0x7c00 and starts executing in real mode
@@ -38,7 +41,37 @@ seta20.2:
 
     ; Switch from real to protected mode. Use a temporary GDT that
     ; maps virtual addresses directly to physical addresses
-    lgdt gdtdesc
+    lgdt [gdtdesc]
     mov eax, cr0
     or eax, CR0_PE
     mov cr0, eax
+
+
+
+
+
+; Temporary GDT
+align 4
+gdt:
+    ; null descriptor
+    dq 0
+
+    ; code segment - 0x0 to 0xffffffff
+    dw 0xffff           ; limit 0:15
+    dw 0x0              ; base 0:15
+    db 0x0              ; base 16:23
+    db 0b10011010       ; access flags
+    db 0b11001111       ; granularity + limit 16:19
+    db 0x0              ; base 24:31
+
+    ; data segment - 0x0 to 0xffffffff
+    dw 0xffff           ; limit 0:15
+    dw 0x0              ; base 0:15
+    db 0x0              ; base 16:23
+    db 0b10010010       ; access flags
+    db 0b11001111       ; granularity + limit 16:19
+    db 0x0              ; base 24:31
+
+gdtdesc:
+    dw (gdtdesc - gdt - 1)      ; sizeof(gdt) - 1
+    dd gdt
