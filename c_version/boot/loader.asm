@@ -12,6 +12,7 @@
 bits 16                     ; Emit 16-bit code
 
 global start
+extern bootmain
 
 start:
     cli                     ; Disable interrupts
@@ -46,9 +47,33 @@ seta20.2:
     or eax, CR0_PE
     mov cr0, eax
 
+    ; Far jump to 32-bit code to reload cs and eip
+    jmp (SEG_KERNEL_CODE << 3):start32
 
+bits 32                     ; Emit 32-bit code
 
+start32:
+    ; Set up the segment registers to use the GDT below
+    mov ax, (SEG_KERNEL_DATA << 3)
+    mov ds, ax              ; Make the data segments use the data segment selector
+    mov es, ax
+    mov ss, ax
+    xor ax, ax              ; Zero the extra segments
+    mov fs, ax
+    mov gs, ax
 
+    ; Set up the stack pointer and call into the C part of the bootloader
+    mov esp, start
+    call bootmain
+
+    ; bootmain should never return, but if it does, trigger a Bochs breakpoint
+    mov ax, 0x8a00          ; 0x8a00 -> port 0x8a00
+    mov dx, ax
+    out dx, ax
+    mov ax, 0x8ae0          ; 0x8ae0 -> port 0x8a00
+    out dx, ax
+spin:
+    jmp spin                ; the death loop
 
 ; Temporary GDT
 align 4
