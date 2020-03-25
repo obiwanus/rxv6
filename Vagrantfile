@@ -70,5 +70,10 @@ Vagrant.configure("2") do |config|
 
     bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
     apt-get install -y clang-9
+
+    cat << EOF
+add-auto-load-safe-path /home/vagrant/src/xv6/.gdbinit
+add-auto-load-safe-path /home/vagrant/src/c_version/.gdbinit'
+EOF > /home/vagrant/.gdbinit
   SHELL
 end

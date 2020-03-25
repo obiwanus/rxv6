@@ -67,6 +67,7 @@ start32:
     call bootmain
 
     ; bootmain should never return, but if it does, trigger a Bochs breakpoint
+    ; (only useful when running under Bochs)
     mov ax, 0x8a00          ; 0x8a00 -> port 0x8a00
     mov dx, ax
     out dx, ax
