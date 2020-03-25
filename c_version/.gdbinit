@@ -1,3 +1,4 @@
+set disassembly-flavor intel
 set $lastcs = -1
 
 define hook-stop
@@ -19,8 +20,6 @@ define hook-stop
   end
   set $lastcs = $cs
 end
-
-set disassembly-flavor intel
 
 echo + target remote localhost:251000\n
 target remote localhost:251000

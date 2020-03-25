@@ -43,7 +43,7 @@ build/bootblock: boot/loader.asm boot/loader_main.c
 	$(CC) $(CFLAGS) -c boot/loader_main.c -o build/loader_main.o
 	ld -m elf_i386 -N -e start -Ttext 0x7C00 build/loader.o build/loader_main.o -o build/bootblock.o
 	objcopy -S -O binary -j .text build/bootblock.o build/bootblock
-	./sign.pl build/bootblock
+	./sign.py build/bootblock
 
 build/xv6.img: build/bootblock
 	dd if=/dev/zero of=build/xv6.img count=10000
