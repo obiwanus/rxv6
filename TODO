@@ -1,0 +1,10 @@
+TODO:
+- Compile an ELF binary with an entry point
+- Place the binary to the disk starting at sector 1
+
+
+
+DONE:
+
+27 March 2020
+- A stub kernel entry point
