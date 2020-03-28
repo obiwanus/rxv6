@@ -38,13 +38,24 @@ CFLAGS = \
 # -fno-stack-protector = don't include code protecting from buffer overflow
 # -nostdinc		= ignore standard include paths
 
+LDFLAGS = -m elf_i386 -N
+# -m elf_i386	= obvious
+# -N 			= 1) sets the text and data sections to be readable and writable
+#				  2) disables page-aligning of the data segment
+#				  3) disables linking against shared libraries
+
 build/bootblock: boot/loader.asm boot/loader_main.c
 	nasm -f elf32 -g boot/loader.asm -o build/loader.o
 	$(CC) $(CFLAGS) -c boot/loader_main.c -o build/loader_main.o
-	ld -m elf_i386 -N -e start -Ttext 0x7C00 build/loader.o build/loader_main.o -o build/bootblock.o
+	ld $(LDFLAGS) -e start -Ttext 0x7C00 build/loader.o build/loader_main.o -o build/bootblock.o
 	objcopy -S -O binary -j .text build/bootblock.o build/bootblock
 	./sign.py build/bootblock
 
-build/xv6.img: build/bootblock
+build/kernel: kernel/entry.asm kernel/linker-script.ld
+	nasm -f elf32 -g kernel/entry.asm -o build/entry.o
+	ld $(LDFLAGS) -T kernel/linker-script.ld build/entry.o -o build/kernel
+
+build/xv6.img: build/bootblock build/kernel
 	dd if=/dev/zero of=build/xv6.img count=10000
 	dd if=build/bootblock of=build/xv6.img conv=notrunc
+	dd if=build/kernel of=build/xv6.img seek=1 conv=notrunc

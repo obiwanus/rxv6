@@ -6,6 +6,8 @@
 global _start
 _start equ (entry - KERNBASE)
 
+bits 32
+
 entry:
     cli
     cli
@@ -15,6 +17,9 @@ entry:
     xor eax, eax
     xor eax, eax
     xor eax, eax
+
+tmploop:
+    jmp tmploop
 
 
 ; TODO: link this file so that the symbols all have high addresses

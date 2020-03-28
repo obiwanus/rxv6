@@ -6,4 +6,4 @@ bootasm.S
 
 entry.S
 65: Why does the `main` symbol have a high address? Why do all symbols have high addresses?
-    Probably because of the linker script? Need to check.
+    Probably because of the linker script? Need to check. (answered)

@@ -1,10 +1,16 @@
 TODO:
-- Compile an ELF binary with an entry point
-- Place the binary to the disk starting at sector 1
-
+- Read about the IDE drivers
+- Read about the structure of ELF files
+- Load the stub entry point from disk into memory and jump into it
 
 
 DONE:
+
+28 March 2020
+- Read about linker scripts to be exposed to the options
+- Write the linker script
+- Compile an ELF binary with an entry point
+- Place the binary to the disk starting at sector 1
 
 27 March 2020
 - A stub kernel entry point
