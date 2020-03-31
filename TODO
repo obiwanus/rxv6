@@ -6,6 +6,9 @@ TODO:
 
 DONE:
 
+29 March 2020
+- Set up clang-format
+
 28 March 2020
 - Read about linker scripts to be exposed to the options
 - Write the linker script

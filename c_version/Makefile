@@ -17,7 +17,7 @@ qemu-gdb: build/xv6.img
 # ========================== BUILD ===========================
 
 # Always make a clean build
-$(shell rm -rf build && mkdir -p build)
+$(shell rm -rf build && mkdir build)
 
 CC = clang-9
 CFLAGS = \
