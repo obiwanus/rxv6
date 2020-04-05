@@ -1,10 +1,16 @@
 TODO:
-- Read about the IDE drivers
 - Read about the structure of ELF files
 - Load the stub entry point from disk into memory and jump into it
 
 
 DONE:
+
+5 April 2020
+- Code for reading data from disk
+
+4 April 2020
+- Read about the IDE drivers
+- Figure out how the data is read from disk
 
 29 March 2020
 - Set up clang-format
