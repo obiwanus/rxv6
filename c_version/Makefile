@@ -29,7 +29,7 @@ CFLAGS = \
 	-fno-omit-frame-pointer  \
 	-fno-stack-protector  \
 	-nostdinc \
-	-O2 -Wall -ggdb -Werror -Iinclude -m32
+	-Oz -Wall -ggdb -Werror -Iinclude -m32
 # -fno-pic 		= disable position-independent code
 # -no-pie 		= disable position-independent executable
 # -static		= link statically
@@ -37,6 +37,7 @@ CFLAGS = \
 # -fno-omit-frame-pointer = don't optimise away rbp usage
 # -fno-stack-protector = don't include code protecting from buffer overflow
 # -nostdinc		= ignore standard include paths
+# -Oz			= optimise aggressively for size
 
 LDFLAGS = -m elf_i386 -N
 # -m elf_i386	= obvious

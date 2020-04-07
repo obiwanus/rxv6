@@ -1,12 +1,18 @@
 TODO:
-- Read about the structure of ELF files
 - Load the stub entry point from disk into memory and jump into it
 
 
 DONE:
 
+8 April 2020
+-
+
+7 April 2020
+- The bootloader now fits in the 512 bytes but doesn't jump to entry
+
 6 April 2020
 - Understand the basics of extended asm
+- Read about the structure of ELF files
 
 5 April 2020
 - Code for reading data from disk
