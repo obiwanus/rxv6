@@ -1,11 +1,15 @@
 TODO:
-- Load the stub entry point from disk into memory and jump into it
-
+- Read on with the operating system itself
 
 DONE:
 
-8 April 2020
+9 April 2020
 -
+
+8 April 2020
+- Checked that the elf header part is loaded into memory successfully
+- Load the stub entry point from disk into memory and jump into it
+- DONE with the boot loader!
 
 7 April 2020
 - The bootloader now fits in the 512 bytes but doesn't jump to entry

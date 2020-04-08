@@ -26,7 +26,7 @@ void read_sector(void *dst, u32 offset) {
 
   // Read data
   wait_for_disk_ready();
-  in_u32_array(0x1F0, dst, SECTOR_SIZE);
+  in_u32_array(0x1F0, dst, SECTOR_SIZE / 4);  // reads SECTOR_SIZE bytes
 }
 
 // Reads 'count' bytes off disk into 'dst', starting from sector 1.
