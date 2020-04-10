@@ -52,9 +52,12 @@ build/bootblock: boot/loader.asm boot/loader_main.c
 	objcopy -S -O binary -j .text build/bootblock.o build/bootblock
 	./sign.py build/bootblock
 
-build/kernel: kernel/entry.asm kernel/linker-script.ld
+build/kernel.o: kernel/main.c
+	$(CC) $(CFLAGS) -c kernel/main.c -o build/kernel.o
+
+build/kernel: kernel/entry.asm kernel/linker-script.ld build/kernel.o
 	nasm -f elf32 -g kernel/entry.asm -o build/entry.o
-	ld $(LDFLAGS) -T kernel/linker-script.ld build/entry.o -o build/kernel
+	ld $(LDFLAGS) -T kernel/linker-script.ld build/entry.o build/kernel.o -o build/kernel
 
 build/xv6.img: build/bootblock build/kernel
 	dd if=/dev/zero of=build/xv6.img count=10000

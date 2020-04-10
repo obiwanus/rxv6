@@ -1,25 +1,48 @@
-%define KERNBASE 0x80000000
+; The kernel will be linked so that the symbols will have
+; virtual addresses starting from KERNBASE
+%define KERNBASE    0x80000000
+
+; Size of per-process kernel stack
+%define KERN_STACK_SIZE 4096
+
+; Page size extension (enables 4Mb pages)
+%define CR4_PSE     0x00000010
+; Write protect
+%define CR0_WP      0x00010000
+; Paging
+%define CR0_PG      0x80000000
 
 ; This file along with the rest of the kernel will be compiled
-; into an ELF executable.
+; and linked into an ELF executable.
 ; _start denotes the entry point for ELF files.
 global _start
+extern main
+extern entry_page_dir
 _start equ (entry - KERNBASE)
 
 bits 32
 
+; The boot processor jumps here after executing the boot loader
 entry:
-    cli
-    cli
-    cli
-    cli
-    xor eax, eax
-    xor eax, eax
-    xor eax, eax
-    xor eax, eax
+    ; Enable page size extension
+    mov eax, cr4
+    or eax, CR4_PSE
+    mov cr4, eax
 
-tmploop:
-    jmp tmploop
+    ; Specify page directory
+    mov eax, (entry_page_dir - KERNBASE)
+    mov cr3, eax
 
+    ; Turn on paging
+    mov eax, cr0
+    or eax, (CR0_PG | CR0_WP)
+    mov cr0, eax
 
-; TODO: link this file so that the symbols all have high addresses
+    ; Set up the stack pointer
+    mov esp, stack + KERN_STACK_SIZE
+
+    ; Jump to main and switch to high addresses
+    mov eax, main
+    jmp [eax]
+
+stack:      resb KERN_STACK_SIZE

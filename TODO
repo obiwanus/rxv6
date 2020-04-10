@@ -1,10 +1,15 @@
 TODO:
-- Read on with the operating system itself
+- Read about paging, jump into main successfully
 
 DONE:
 
+10 Apr 2020
+- Tried to enable paging in entry, but couldn't jump into main afterwards.
+  Perhaps a paging bug
+
 9 April 2020
--
+- Checked why reading more data from disk didn't work before, but
+  it actually worked this time
 
 8 April 2020
 - Checked that the elf header part is loaded into memory successfully
