@@ -3,6 +3,9 @@ TODO:
 
 DONE:
 
+11 Apr 2020
+- Jumped into main successfully. The reason was the wrong jump instruction
+
 10 Apr 2020
 - Tried to enable paging in entry, but couldn't jump into main afterwards.
   Perhaps a paging bug

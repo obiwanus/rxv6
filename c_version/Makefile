@@ -39,8 +39,8 @@ CFLAGS = \
 # -nostdinc		= ignore standard include paths
 # -Oz			= optimise aggressively for size
 
-LDFLAGS = -m elf_i386 -N
-# -m elf_i386	= obvious
+LDFLAGS = -m elf_i386
+# (for the boot block we're also using -N):
 # -N 			= 1) sets the text and data sections to be readable and writable
 #				  2) disables page-aligning of the data segment
 #				  3) disables linking against shared libraries
@@ -48,7 +48,7 @@ LDFLAGS = -m elf_i386 -N
 build/bootblock: boot/loader.asm boot/loader_main.c
 	nasm -f elf32 -g boot/loader.asm -o build/loader.o
 	$(CC) $(CFLAGS) -c boot/loader_main.c -o build/loader_main.o
-	ld $(LDFLAGS) -e start -Ttext 0x7C00 build/loader.o build/loader_main.o -o build/bootblock.o
+	ld $(LDFLAGS) -N -e start -Ttext 0x7C00 build/loader.o build/loader_main.o -o build/bootblock.o
 	objcopy -S -O binary -j .text build/bootblock.o build/bootblock
 	./sign.py build/bootblock
 

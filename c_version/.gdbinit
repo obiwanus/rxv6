@@ -1,5 +1,6 @@
 set disassembly-flavor intel
 set $lastcs = -1
+layout split
 
 define hook-stop
   # There doesn't seem to be a good way to detect if we're in 16- or
@@ -24,5 +25,5 @@ end
 echo + target remote localhost:251000\n
 target remote localhost:251000
 
-echo + symbol-file build/bootblock.o\n
-symbol-file build/bootblock.o
+echo + symbol-file build/kernel\n
+symbol-file build/kernel
