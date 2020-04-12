@@ -3,6 +3,9 @@
 
 #define KERNBASE 0x80000000
 
+#define V2P(a) ((u32)(a)-KERNBASE)
+#define P2V(a) ((void *)(((u8 *)(a)) + KERNBASE))
+
 #define PAGE_SIZE 4096
 #define NUM_PAGE_DIR_ENTRIES 1024
 

@@ -17,7 +17,7 @@
 ; _start denotes the entry point for ELF files.
 global _start
 _start equ (entry - KERNBASE)
-extern kernel_main
+extern kernel_start
 extern entry_page_dir
 
 bits 32
@@ -41,8 +41,8 @@ entry:
     ; Set up the stack pointer
     mov esp, stack + KERN_STACK_SIZE
 
-    ; Jump to kernel_main and switch to high addresses
-    mov eax, kernel_main
+    ; Jump to kernel_start and switch to high addresses
+    mov eax, kernel_start
     jmp eax
 
 stack:      resb KERN_STACK_SIZE

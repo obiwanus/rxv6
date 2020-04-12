@@ -1,7 +1,36 @@
 #include "base.h"
-#include "mmu.h"
+#include "kernel/mmu.h"
+#include "kernel/spinlock.h"
 
-void kernel_main() {
+extern u8 *end;  // first address after kernel in physical memory (see linker script)
+
+// TODO(Ivan): rename?
+typedef struct Run {
+  struct Run *next;
+} Run;
+
+typedef struct {
+  Spinlock lock;
+  bool use_lock;
+  Run *free_list;
+} KMemory;
+
+KMemory gKernelMemory;
+
+void free_range(void *start, void *end) {
+  // TODO
+}
+
+void kernel_start() {
+  // Init kernel memory, phase 1:
+  // just add the already mapped pages on the free list
+  {
+    init_lock(&gKernelMemory.lock, "gKernelMemory");
+    gKernelMemory.use_lock = false;
+    free_range(end, P2V(4 * 1024 * 1024));  // add the range [end : 4GB] to the free list
+  }
+
+  // Temporary loop
   for (;;) {
   }
 }

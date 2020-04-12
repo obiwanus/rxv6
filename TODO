@@ -1,7 +1,11 @@
 TODO:
-- Read about paging, jump into main successfully
+-
 
 DONE:
+
+12 Apr 2020
+- Set up a few sublime snippets
+- Starting kernel memory init
 
 11 Apr 2020
 - Jumped into main successfully. The reason was the wrong jump instruction

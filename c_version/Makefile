@@ -1,3 +1,6 @@
+# Build the kernel image by default
+all: build/xv6.img
+
 # ============================================================
 # ======================== EMULATION =========================
 CPUS = 2
@@ -29,7 +32,8 @@ CFLAGS = \
 	-fno-omit-frame-pointer  \
 	-fno-stack-protector  \
 	-nostdinc \
-	-Oz -Wall -ggdb -Werror -Iinclude -m32
+	-Oz -Wall -ggdb -Werror -Iinclude -m32 \
+	-std=c18
 # -fno-pic 		= disable position-independent code
 # -no-pie 		= disable position-independent executable
 # -static		= link statically
@@ -52,12 +56,17 @@ build/bootblock: boot/loader.asm boot/loader_main.c
 	objcopy -S -O binary -j .text build/bootblock.o build/bootblock
 	./sign.py build/bootblock
 
-build/kernel.o: kernel/main.c
-	$(CC) $(CFLAGS) -c kernel/main.c -o build/kernel.o
+KERNEL_OBJS = kernel/main.o kernel/spinlock.o
 
-build/kernel: kernel/entry.asm kernel/linker-script.ld build/kernel.o
+build/main.o: kernel/main.c
+	$(CC) $(CFLAGS) -c kernel/main.c -o build/main.o
+
+build/spinlock.o: kernel/spinlock.c include/kernel/spinlock.h
+	$(CC) $(CFLAGS) -c kernel/spinlock.c -o build/spinlock.o
+
+build/kernel: kernel/entry.asm kernel/linker-script.ld $(KERNEL_OBJS)
 	nasm -f elf32 -g kernel/entry.asm -o build/entry.o
-	ld $(LDFLAGS) -T kernel/linker-script.ld build/entry.o build/kernel.o -o build/kernel
+	ld $(LDFLAGS) -T kernel/linker-script.ld build/entry.o $(KERNEL_OBJS) -o build/kernel
 
 build/xv6.img: build/bootblock build/kernel
 	dd if=/dev/zero of=build/xv6.img count=10000

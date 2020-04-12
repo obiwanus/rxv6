@@ -11,4 +11,11 @@ typedef unsigned int u32;
 typedef unsigned int uint;
 typedef unsigned long long u64;
 
+// Bool (can't include stdbool.h)
+typedef u8 bool;
+#define true 1
+#define false 0
+
+#define NULL 0
+
 #endif
