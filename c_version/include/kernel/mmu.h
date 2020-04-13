@@ -1,12 +1,13 @@
 #ifndef XV6_MMU_H
 #define XV6_MMU_H
 
-#define KERNBASE 0x80000000
+#define KERNBASE 0x80000000  // First kernel virtual address
+#define PHYS_TOP 0x0E000000  // Physical memory ends here (224 MB)
 
 #define V2P(a) ((u32)(a)-KERNBASE)
 #define P2V(a) ((void *)(((u8 *)(a)) + KERNBASE))
 
-#define PAGE_SIZE 4096
+#define PAGE_SIZE 4096  // 0x1000
 #define NUM_PAGE_DIR_ENTRIES 1024
 
 #define PTX_SHIFT 12  // offset of PTX in a linear address
@@ -17,5 +18,12 @@
 #define PTE_W 0x0002   // Writeable
 #define PTE_U 0x0004   // User
 #define PTE_PS 0x0080  // Page Size
+
+// E.g. 0001 0000 0000 0000 = page size, then
+//      0000 1111 1111 1111 = (page size - 1).
+// We can't just do ROUND_UP_PAGE(addr) as (ROUND_DOWN_PAGE(addr) + PAGE_SIZE) because
+// if addr is currently on the page boundary we don't want it to change
+#define ROUND_DOWN_PAGE(a) (u8 *)((u32)(a) & ~(PAGE_SIZE - 1))
+#define ROUND_UP_PAGE(a) (u8 *)((u32)(a + (PAGE_SIZE - 1)) & ~(PAGE_SIZE - 1))
 
 #endif  // XV6_MMU_H

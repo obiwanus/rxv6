@@ -4,21 +4,59 @@
 
 extern u8 *end;  // first address after kernel in physical memory (see linker script)
 
-// TODO(Ivan): rename?
-typedef struct Run {
-  struct Run *next;
-} Run;
+typedef struct List {
+  struct List *next;
+} List;
 
 typedef struct {
   Spinlock lock;
   bool use_lock;
-  Run *free_list;
+  List *free_list;
 } KMemory;
 
 KMemory gKernelMemory;
 
-void free_range(void *start, void *end) {
+void panic(char *msg) {
   // TODO
+}
+
+void memset(void *va, u8 pattern, int len) {
+  // TODO
+}
+
+// Frees the page of physical memory where va points to
+void free_page(void *va) {
+  // Validate the address
+  if ((u32)va % PAGE_SIZE != 0) {
+    panic("free_page: va is not page-aligned");
+  }
+  if ((u8 *)va < end || V2P(va) >= PHYS_TOP) {
+    panic("free_page: va is out of range");
+  }
+
+  // Fill with 00010001 to catch references to freed memory
+  memset(va, 1, PAGE_SIZE);
+
+  if (gKernelMemory.use_lock) {
+    acquire(&gKernelMemory.lock);
+  }
+
+  // Add the va on free list
+  List *list = (List *)va;
+  list->next = gKernelMemory.free_list;
+  gKernelMemory.free_list = list;
+
+  if (gKernelMemory.use_lock) {
+    release(&gKernelMemory.lock);
+  }
+}
+
+void free_range(void *vstart, void *vend) {
+  u8 *page = ROUND_UP_PAGE(vstart);
+  while (page + PAGE_SIZE <= (u8 *)vend) {
+    free_page(page);  // exceptional use of free_page
+    page += PAGE_SIZE;
+  }
 }
 
 void kernel_start() {
