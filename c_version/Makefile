@@ -56,10 +56,13 @@ build/bootblock: boot/loader.asm boot/loader_main.c
 	objcopy -S -O binary -j .text build/bootblock.o build/bootblock
 	./sign.py build/bootblock
 
-KERNEL_OBJS = kernel/main.o kernel/spinlock.o
+KERNEL_OBJS = \
+	build/main.o \
+	build/spinlock.o \
+	build/alloc.o
 
-build/main.o: kernel/main.c
-	$(CC) $(CFLAGS) -c kernel/main.c -o build/main.o
+build/%.o: kernel/%.c
+	$(CC) $(CFLAGS) -c $^ -o $@
 
 build/spinlock.o: kernel/spinlock.c include/kernel/spinlock.h
 	$(CC) $(CFLAGS) -c kernel/spinlock.c -o build/spinlock.o
