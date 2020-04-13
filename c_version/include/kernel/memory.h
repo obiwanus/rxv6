@@ -1,5 +1,12 @@
-#ifndef XV6_MMU_H
-#define XV6_MMU_H
+#ifndef XV6_MEMORY_H
+#define XV6_MEMORY_H
+
+#include "base.h"
+#include "kernel/spinlock.h"
+
+// ==================================== Data ======================================================
+
+extern u8 kernel_end;  // first address after kernel in virtual memory (see linker script)
 
 #define KERNBASE 0x80000000  // First kernel virtual address
 #define PHYS_TOP 0x0E000000  // Physical memory ends here (224 MB)
@@ -26,4 +33,9 @@
 #define ROUND_DOWN_PAGE(a) (u8 *)((u32)(a) & ~(PAGE_SIZE - 1))
 #define ROUND_UP_PAGE(a) (u8 *)((u32)(a + (PAGE_SIZE - 1)) & ~(PAGE_SIZE - 1))
 
-#endif  // XV6_MMU_H
+// ==================================== Functions =================================================
+
+void init_kernel_memory_range(void *vstart, void *vend);
+void free_page(void *va);
+
+#endif  // XV6_MEMORY_H

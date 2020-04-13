@@ -7,6 +7,7 @@ DONE:
 - Proceeding with kernel memory init
 - Fixed an obscure bug with the linker-script-defined symbol kernel_end
 - Added a module for allocating memory
+- Use the memory module for everything memory-related
 
 12 Apr 2020
 - Set up a few sublime snippets

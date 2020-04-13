@@ -1,7 +1,15 @@
-#include "kernel/alloc.h"
+#include "kernel/memory.h"
+
+typedef struct FreeMemoryList {
+  struct FreeMemoryList *next;
+} FreeMemoryList;
+
+typedef struct {
+  Spinlock lock;
+  FreeMemoryList *free_list;
+} KMemory;
 
 KMemory gKernelMemory;
-extern u8 kernel_end;  // first address after kernel in virtual memory (see linker script)
 
 void panic(char *msg) {
   // TODO

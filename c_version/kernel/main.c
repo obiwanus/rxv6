@@ -1,8 +1,4 @@
-#include "base.h"
-#include "kernel/alloc.h"
-#include "kernel/mmu.h"
-
-extern u8 kernel_end;  // first address after kernel in virtual memory (see linker script)
+#include "kernel/memory.h"
 
 void kernel_start() {
   // Add the already mapped pages on the free list
