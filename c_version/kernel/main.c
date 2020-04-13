@@ -2,7 +2,7 @@
 #include "kernel/mmu.h"
 #include "kernel/spinlock.h"
 
-extern u8 *end;  // first address after kernel in physical memory (see linker script)
+extern u8 kernel_end;  // first address after kernel in virtual memory (see linker script)
 
 typedef struct List {
   struct List *next;
@@ -30,7 +30,7 @@ void free_page(void *va) {
   if ((u32)va % PAGE_SIZE != 0) {
     panic("free_page: va is not page-aligned");
   }
-  if ((u8 *)va < end || V2P(va) >= PHYS_TOP) {
+  if ((u8 *)va < &kernel_end || V2P(va) >= PHYS_TOP) {
     panic("free_page: va is out of range");
   }
 
@@ -65,7 +65,8 @@ void kernel_start() {
   {
     init_lock(&gKernelMemory.lock, "gKernelMemory");
     gKernelMemory.use_lock = false;
-    free_range(end, P2V(4 * 1024 * 1024));  // add the range [end : 4GB] to the free list
+    free_range(&kernel_end,
+               P2V(4 * 1024 * 1024));  // add the range [kernel_end : 4GB] to the free list
   }
 
   // Temporary loop
