@@ -4,12 +4,19 @@
 #include "base.h"
 #include "kernel/spinlock.h"
 
+// ==================================== Types =====================================================
+
+typedef u32 PDE;  // Page directory / page table entry
+
 // ==================================== Data ======================================================
 
 extern u8 kernel_end;  // first address after kernel in virtual memory (see linker script)
 
-#define KERNBASE 0x80000000  // First kernel virtual address
-#define PHYS_TOP 0x0E000000  // Physical memory ends here (224 MB)
+#define EXT_MEM 0x100000               // start of extended memory
+#define PHYS_TOP 0x0E000000            // physical memory ends here (224 MB)
+#define DEV_SPACE 0xFE000000           // devices at high addresses
+#define KERNBASE 0x80000000            // first kernel virtual address
+#define KERNLINK (KERNBASE + EXT_MEM)  // address where the kernel is linked
 
 #define V2P(a) ((u32)(a)-KERNBASE)
 #define P2V(a) ((void *)(((u8 *)(a)) + KERNBASE))
@@ -36,6 +43,11 @@ extern u8 kernel_end;  // first address after kernel in virtual memory (see link
 // ==================================== Functions =================================================
 
 void init_kernel_memory_range(void *vstart, void *vend);
+void init_kernel_page_table();
+
+PDE *new_kernel_page_table();
+void switch_to_kernel_page_table();
+
 void free_page(void *va);
 
 #endif  // XV6_MEMORY_H

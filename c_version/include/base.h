@@ -18,4 +18,6 @@ typedef u8 bool;
 
 #define NULL 0
 
+#define COUNT(arr) (sizeof(arr) / sizeof((arr)[0]))
+
 #endif

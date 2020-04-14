@@ -37,7 +37,7 @@ SECTIONS
     /* Page-align the data segment */
     . = ALIGN(0x1000);
 
-    PROVIDE(data = .);
+    PROVIDE(kernel_data = .);
 
     .data : {
         *(.data)
