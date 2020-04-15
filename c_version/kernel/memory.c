@@ -58,14 +58,14 @@ void init_kernel_memory_range(void *vstart, void *vend) {
   }
 }
 
-void init_kernel_page_table() {
-  gKPageDir = new_kernel_page_table();
+void init_global_kernel_page_table() {
+  gKPageDir = new_kernel_page_table(false);
   switch_to_kernel_page_table();
 }
 
 // Set up the kernel part of a page table
-PDE *new_kernel_page_table() {
-  PDE *page_table = (PDE *)alloc_page();
+PDE *new_kernel_page_table(bool lock_kmem) {
+  PDE *page_table = (PDE *)lock_kmem ? alloc_page() : alloc_page_lockfree();
   if (page_table == NULL) {
     return NULL;
   }
@@ -76,7 +76,7 @@ PDE *new_kernel_page_table() {
 
   // Map pages
   for (KMap *kmap = gKMap; kmap < gKMap + COUNT(gKMap); kmap++) {
-    // TODO:
+    bool success = map_pages()
   }
 
   return page_table;
@@ -108,4 +108,25 @@ void free_page(void *va) {
   gKMemory.free_list = list;
 
   release(&gKMemory.lock);
+}
+
+// Allocates a 4Kb page of physical memory.
+// Returns NULL if can't allocate anything
+u8 *alloc_page() {
+  acquire(&gKMemory.lock);
+  FreeMemoryList *list = gKMemory.free_list;
+  if (list != NULL) {
+    gKMemory.free_list = list->next;
+  }
+  release(&gKMemory.lock);
+  return (u8 *)list;
+}
+
+// Same as above, but no locking. Used for kernel init
+u8 *alloc_page_lockfree() {
+  FreeMemoryList *list = gKMemory.free_list;
+  if (list != NULL) {
+    gKMemory.free_list = list->next;
+  }
+  return (u8 *)list;
 }

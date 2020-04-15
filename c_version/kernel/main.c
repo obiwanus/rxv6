@@ -5,7 +5,7 @@ void kernel_start() {
   init_kernel_memory_range(&kernel_end, P2V(4 * 1024 * 1024));  // [kernel_end : 4GB]
 
   // Create a new global kernel page table and switch to it
-  init_kernel_page_table();
+  init_global_kernel_page_table();
 
   // Temporary loop
   for (;;) {

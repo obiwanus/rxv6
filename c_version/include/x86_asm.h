@@ -24,6 +24,6 @@ static inline void stosb(void *addr, u8 data, int count) {
                    : "memory", "cc");
 }
 
-static inline void load_cr3(void *addr) {
+static inline void load_cr3(u32 addr) {
   __asm__ volatile("movl %[page_table], %%cr3" : : [page_table] "r"(addr));
 }

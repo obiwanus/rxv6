@@ -43,11 +43,12 @@ extern u8 kernel_end;  // first address after kernel in virtual memory (see link
 // ==================================== Functions =================================================
 
 void init_kernel_memory_range(void *vstart, void *vend);
-void init_kernel_page_table();
+void init_global_kernel_page_table();
 
-PDE *new_kernel_page_table();
+PDE *new_kernel_page_table(bool lock_kmem);
 void switch_to_kernel_page_table();
 
+u8 *alloc_page();
 void free_page(void *va);
 
 #endif  // XV6_MEMORY_H
