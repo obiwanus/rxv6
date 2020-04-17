@@ -43,6 +43,14 @@ void memset(void *va, u8 pattern, int len) {
   // TODO
 }
 
+void free_page_table(PDE *page_table) {
+  // TODO
+}
+
+static bool map_pages(PDE *page_table, u32 va, u32 size, u32 perms) {
+  // TODO
+}
+
 void init_kernel_memory_range(void *vstart, void *vend) {
   init_lock(&gKMemory.lock, "gKMemory");
 
@@ -76,7 +84,10 @@ PDE *new_kernel_page_table(bool lock_kmem) {
 
   // Map pages
   for (KMap *kmap = gKMap; kmap < gKMap + COUNT(gKMap); kmap++) {
-    bool success = map_pages()
+    if (!map_pages(page_table, kmap->virt_addr, kmap->phys_end - kmap->phys_start, kmem->perms)) {
+      free_page_table(page_table);
+      return NULL;
+    }
   }
 
   return page_table;
