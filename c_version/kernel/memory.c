@@ -125,12 +125,9 @@ void free_page(void *va) {
 // Returns NULL if can't allocate anything
 u8 *alloc_page() {
   acquire(&gKMemory.lock);
-  FreeMemoryList *list = gKMemory.free_list;
-  if (list != NULL) {
-    gKMemory.free_list = list->next;
-  }
+  u8 *result = alloc_page_lockfree();
   release(&gKMemory.lock);
-  return (u8 *)list;
+  return result;
 }
 
 // Same as above, but no locking. Used for kernel init
