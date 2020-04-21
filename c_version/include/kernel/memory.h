@@ -6,7 +6,8 @@
 
 // ==================================== Types =====================================================
 
-typedef u32 PDE;  // Page directory / page table entry
+typedef u32 PDE;  // Page directory entry
+typedef u32 PTE;  // Page table entry
 
 // ==================================== Data ======================================================
 
@@ -27,11 +28,18 @@ extern u8 kernel_end;  // first address after kernel in virtual memory (see link
 #define PTX_SHIFT 12  // offset of PTX in a linear address
 #define PDX_SHIFT 22  // offset of PDX in a linear address
 
+#define PAGE_DIR_INDEX(va) (((u32)(va) >> PDX_SHIFT) & 0x3FF)    // the first 10 bits of va
+#define PAGE_TABLE_INDEX(va) (((u32)(va) >> PTX_SHIFT) & 0x3FF)  // the second 10 bits of va
+
 // Page table/directory entry flags
 #define PTE_P 0x0001   // Present
 #define PTE_W 0x0002   // Writeable
 #define PTE_U 0x0004   // User
 #define PTE_PS 0x0080  // Page Size
+
+// Parsing the page dir/table entries
+#define PTE_ADDR(pte) ((u32)(pte) & ~0xFFF)
+#define PTE_FLAGS(pte) ((u32)(pte)&0xFFF)
 
 // E.g. 0001 0000 0000 0000 = page size, then
 //      0000 1111 1111 1111 = (page size - 1).
@@ -43,10 +51,7 @@ extern u8 kernel_end;  // first address after kernel in virtual memory (see link
 // ==================================== Functions =================================================
 
 void init_kernel_memory_range(void *vstart, void *vend);
-void init_global_kernel_page_table();
-
-PDE *new_kernel_page_table(bool lock_kmem);
-void switch_to_kernel_page_table();
+void init_global_kernel_page_dir();
 
 u8 *alloc_page();
 void free_page(void *va);
