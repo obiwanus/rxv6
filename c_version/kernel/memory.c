@@ -36,11 +36,13 @@ static KMap gKMap[] = {
 
 // ==================================== Functions =================================================
 
-void panic(char *msg) {
+void
+panic(char *msg) {
   // TODO
 }
 
-void memset(void *va, u8 pattern, int len) {
+void
+memset(void *va, u8 pattern, int len) {
   if ((u32)va % 4 == 0 && len % 4 == 0) {
     // Store by dword
     u32 dw = (u32)pattern;
@@ -50,12 +52,14 @@ void memset(void *va, u8 pattern, int len) {
   }
 }
 
-void free_page_dir(PDE *page_dir) {
+void
+free_page_dir(PDE *page_dir) {
   // TODO
 }
 
 // Uses the page directory to get the page table entry for a virtual address
-static PTE *get_pte_for_va(PDE *page_dir, const void *va) {
+static PTE *
+get_pte_for_va(PDE *page_dir, const void *va) {
   PDE *pde = page_dir + PAGE_DIR_INDEX(va);
   if (!(*pde & PTE_P)) {
     return NULL;  // mapping doesn't exist
@@ -66,7 +70,8 @@ static PTE *get_pte_for_va(PDE *page_dir, const void *va) {
 
 // Maps all the pages from [va: va+size] to [pa: pa+size].
 // va and size might not be page-aligned
-static bool map_range(PDE *page_dir, u32 va, u32 pa, u32 size, u32 perms) {
+static bool
+map_range(PDE *page_dir, u32 va, u32 pa, u32 size, u32 perms) {
   // Get the page-aligned virtual address range
   u8 *start = ROUND_DOWN_PAGE(va);
   u8 *end = ROUND_UP_PAGE(va + size);
@@ -100,7 +105,8 @@ static bool map_range(PDE *page_dir, u32 va, u32 pa, u32 size, u32 perms) {
   return true;
 }
 
-void init_kernel_memory_range(void *vstart, void *vend) {
+void
+init_kernel_memory_range(void *vstart, void *vend) {
   init_lock(&gKMemory.lock, "gKMemory");
 
   // Add a range of virtual addresses on free list.
@@ -116,7 +122,8 @@ void init_kernel_memory_range(void *vstart, void *vend) {
 }
 
 // Set up the kernel part of a page table
-PDE *setup_kernel_virtual_mappings() {
+PDE *
+new_page_dir_with_kernel_mappings() {
   PDE *page_dir = (PDE *)alloc_page();
   if (page_dir == NULL) {
     return NULL;
@@ -139,17 +146,20 @@ PDE *setup_kernel_virtual_mappings() {
 }
 
 // Use the kernel-only page table (when no process is running)
-void switch_to_kernel_page_dir() {
+void
+switch_to_kernel_page_dir() {
   load_cr3(V2P(gKPageDir));
 }
 
-void init_global_kernel_page_dir() {
-  gKPageDir = setup_kernel_virtual_mappings();
+void
+init_global_kernel_page_dir() {
+  gKPageDir = new_page_dir_with_kernel_mappings();
   switch_to_kernel_page_dir();
 }
 
 // Frees the page of physical memory where va points to
-void free_page(void *va) {
+void
+free_page(void *va) {
   // Validate the address
   if ((u32)va % PAGE_SIZE != 0) {
     panic("free_page: va is not page-aligned");
@@ -174,7 +184,8 @@ void free_page(void *va) {
 // Allocates a 4Kb page of physical memory.
 // Returns a virtual address to the allocated memory
 // Returns NULL if can't allocate anything.
-u8 *alloc_page() {
+u8 *
+alloc_page() {
   acquire(&gKMemory.lock);
   FreeMemoryList *list = gKMemory.free_list;
   if (list != NULL) {

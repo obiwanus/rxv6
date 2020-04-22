@@ -4,12 +4,14 @@
 
 #define SECTOR_SIZE 512
 
-void wait_for_disk_ready() {
+void
+wait_for_disk_ready() {
   while ((in_u8(0x1F7) & 0xC0) != 0x40)
     ;
 }
 
-void read_sector(void *dst, u32 offset) {
+void
+read_sector(void *dst, u32 offset) {
   wait_for_disk_ready();
 
   // Specify the number of sectors to read
@@ -33,7 +35,8 @@ void read_sector(void *dst, u32 offset) {
 // Makes sure the first byte at 'offset_in_bytes' will end up
 // exactly at 'dst'.
 // WARNING: may overwrite bytes located before 'dst' in order to achieve it.
-void read_bytes_off_disk(u8 *dst, uint count, uint offset_in_bytes) {
+void
+read_bytes_off_disk(u8 *dst, uint count, uint offset_in_bytes) {
   u8 *end_address = dst + count;
 
   // Rewind the starting point if necessary (see comment above)
@@ -53,7 +56,8 @@ void read_bytes_off_disk(u8 *dst, uint count, uint offset_in_bytes) {
 
 typedef void (*EntryFunc)(void);
 
-int bootmain() {
+int
+bootmain() {
   // Load some bytes off disk into scratch space
   ELF32_Header *elf_header = (ELF32_Header *)0x10000;
   read_bytes_off_disk((u8 *)elf_header, 4096, 0);
