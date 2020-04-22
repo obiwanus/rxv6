@@ -70,7 +70,7 @@ int bootmain() {
     u8 *program_section = (u8 *)ph->phys_addr;
     read_bytes_off_disk(program_section, ph->file_size, ph->offset);
     if (ph->mem_size > ph->file_size) {
-      stosb(program_section + ph->file_size, 0, ph->mem_size - ph->file_size);
+      store_u8s(program_section + ph->file_size, 0, ph->mem_size - ph->file_size);
     }
     ph++;  // next entry
   }

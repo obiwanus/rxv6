@@ -17,8 +17,17 @@ static inline void out_u8(u16 port, u8 data) {
   __asm__ volatile("out %[data], %[port]" : : [data] "a"(data), [port] "d"(port));
 }
 
-static inline void stosb(void *addr, u8 data, int count) {
+// Fills memory byte by byte
+static inline void store_u8s(void *addr, u8 data, int count) {
   __asm__ volatile("cld; rep stosb"
+                   : "=D"(addr), "=c"(count)
+                   : "0"(addr), "1"(count), "a"(data)
+                   : "memory", "cc");
+}
+
+// Fills memory by dwords
+static inline void store_u32s(void *addr, u32 data, int count) {
+  __asm__ volatile("cld; rep stosl"
                    : "=D"(addr), "=c"(count)
                    : "0"(addr), "1"(count), "a"(data)
                    : "memory", "cc");

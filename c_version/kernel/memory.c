@@ -41,7 +41,13 @@ void panic(char *msg) {
 }
 
 void memset(void *va, u8 pattern, int len) {
-  // TODO
+  if ((u32)va % 4 == 0 && len % 4 == 0) {
+    // Store by dword
+    u32 dw = (u32)pattern;
+    store_u32s(va, (dw << 24) | (dw << 16) | (dw << 8) | dw, len / 4);
+  } else {
+    store_u8s(va, pattern, len);
+  }
 }
 
 void free_page_dir(PDE *page_dir) {
@@ -55,7 +61,7 @@ static PTE *get_pte_for_va(PDE *page_dir, const void *va) {
     return NULL;  // mapping doesn't exist
   }
   PTE *page_table = (PTE *)P2V(PTE_ADDR(*pde));
-  return NULL;
+  return page_table + PAGE_TABLE_INDEX(va);
 }
 
 // Maps all the pages from [va: va+size] to [pa: pa+size].
