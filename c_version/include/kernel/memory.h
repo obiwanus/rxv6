@@ -52,6 +52,7 @@ extern u8 kernel_end;  // first address after kernel in virtual memory (see link
 
 void init_kernel_memory_range(void *vstart, void *vend);
 void init_global_kernel_page_dir();
+void switch_to_kernel_page_dir();
 
 u8 *alloc_page();
 void free_page(void *va);

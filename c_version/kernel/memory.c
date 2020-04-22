@@ -3,13 +3,13 @@
 
 // ==================================== Internal types ============================================
 
-typedef struct FreeMemoryList {
-  struct FreeMemoryList *next;
-} FreeMemoryList;
+typedef struct FreePage {
+  struct FreePage *next;
+} FreePage;
 
 typedef struct KMemory {
   Spinlock lock;
-  FreeMemoryList *free_list;
+  FreePage *free_list;
   bool use_lock;
 } KMemory;
 
@@ -116,14 +116,8 @@ init_kernel_memory_range(void *vstart, void *vend)
   init_lock(&gKMemory.lock, "gKMemory");
 
   // Add a range of virtual addresses on free list.
-  // Used only during kernel init, so no locking is needed
-  u8 *page = ROUND_UP_PAGE(vstart);
-  while (page + PAGE_SIZE <= (u8 *)vend) {
-    // Add page on free list
-    FreeMemoryList *list = (FreeMemoryList *)page;
-    list->next = gKMemory.free_list;
-    gKMemory.free_list = list;
-    page += PAGE_SIZE;
+  for (u8 *page = ROUND_UP_PAGE(vstart); page + PAGE_SIZE <= (u8 *)vend; page += PAGE_SIZE) {
+    free_page(page);
   }
 }
 
@@ -163,7 +157,6 @@ void
 init_global_kernel_page_dir()
 {
   gKPageDir = new_page_dir_with_kernel_mappings();
-  switch_to_kernel_page_dir();
 }
 
 // Frees the page of physical memory where va points to
@@ -184,7 +177,7 @@ free_page(void *va)
   acquire(&gKMemory.lock);
 
   // Add the va on free list
-  FreeMemoryList *list = (FreeMemoryList *)va;
+  FreePage *list = (FreePage *)va;
   list->next = gKMemory.free_list;
   gKMemory.free_list = list;
 
@@ -198,7 +191,7 @@ u8 *
 alloc_page()
 {
   acquire(&gKMemory.lock);
-  FreeMemoryList *list = gKMemory.free_list;
+  FreePage *list = gKMemory.free_list;
   if (list != NULL) {
     gKMemory.free_list = list->next;
   }

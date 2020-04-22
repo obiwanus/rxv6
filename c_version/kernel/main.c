@@ -4,10 +4,11 @@ void
 kernel_start()
 {
   // Add the already mapped pages on the free list
-  init_kernel_memory_range(&kernel_end, P2V(4 * 1024 * 1024));  // [kernel_end : 4GB]
+  init_kernel_memory_range(&kernel_end, P2V(4 * 1024 * 1024));  // [kernel_end : 4MiB]
 
   // Create a new global kernel page dir and switch to it
   init_global_kernel_page_dir();
+  switch_to_kernel_page_dir();
 
   // Temporary loop
   for (;;) {
