@@ -130,14 +130,16 @@ new_page_dir_with_kernel_mappings()
     return NULL;
   }
   memset(page_dir, 0, PAGE_SIZE);
-  if (P2V(PHYS_TOP) > (void *)DEV_SPACE) {
+
+  if (P2V(PHYS_TOP) > (void *)DEV_SPACE) {  // TODO: maybe we can check it elsewhere?
     panic("PHYS_TOP is too high");
   }
 
-  // Map pages
+  // Setup the kernel mappings
   for (KMap *kmap = gKMap; kmap < gKMap + COUNT(gKMap); kmap++) {
-    if (!map_range(page_dir, kmap->virt_addr, kmap->phys_start, kmap->phys_end - kmap->phys_start,
-                   kmap->perms)) {
+    bool mapped = map_range(page_dir, kmap->virt_addr, kmap->phys_start,
+                            kmap->phys_end - kmap->phys_start, kmap->perms);
+    if (!mapped) {
       free_page_dir(page_dir);
       return NULL;
     }
