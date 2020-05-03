@@ -1,4 +1,5 @@
 #include "kernel/memory.h"
+#include "kernel/mp.h"
 
 void
 kernel_start()
@@ -9,6 +10,9 @@ kernel_start()
   // Create a new global kernel page dir and switch to it
   init_global_kernel_page_dir();
   switch_to_kernel_page_dir();
+
+  // Detect other processors
+  mp_init();
 
   // Temporary loop
   for (;;) {

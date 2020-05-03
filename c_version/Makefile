@@ -59,7 +59,8 @@ build/bootblock: boot/loader.asm boot/loader_main.c
 KERNEL_OBJS = \
 	build/main.o \
 	build/spinlock.o \
-	build/memory.o
+	build/memory.o \
+	build/mp.o
 
 build/%.o: kernel/%.c
 	$(CC) $(CFLAGS) -c $^ -o $@
