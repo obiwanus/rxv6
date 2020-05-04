@@ -1,9 +1,11 @@
 // Multiprocessor support
 // See the MP specification 1.4
 
-#include "kernel/mp.h"
+#include "string.h"
+
 #include "kernel/console.h"
 #include "kernel/memory.h"
+#include "kernel/mp.h"
 
 // Search for the floating pointer struct at [addr : addr + len bytes]
 static MP_FPStruct *
@@ -24,17 +26,22 @@ mp_fp_struct_search()
   // Check the first KB of the extended BIOS data area (EBDA)
   {
     u32 addr = (BDA[0x0F] << 8) | (BDA[0x0E] << 4);
+    log("Searching for an MP struct in range [%p : %p]...", addr, addr + 1024);
     MP_FPStruct *result = mp_search(addr, 1024);
     if (result)
       return result;
+
+    log("Not found");
   }
 
   // Check the last KB of system base memory
   {
     u32 addr = ((BDA[0x14] << 8) | BDA[0x13]) * 1024;
+    log("Searching for an MP struct in range [%p : %p]", addr, addr + 1024);
     MP_FPStruct *result = mp_search(addr - 1024, 1024);
     if (result)
       return result;
+    log("Not found");
   }
 
   // Check the BIOS ROM between 0xE0000 and 0xFFFFF
@@ -57,11 +64,11 @@ find_mp_config(MP_FPStruct **p_mp_struct, MP_ConfigTable **p_mp_table)
 void
 mp_init()
 {
-  MP_FPStruct *mp_floating_pointer_struct;
+  MP_FPStruct *mp_fp_struct;
   MP_ConfigTable *mp_config_table;
 
   // Try to find an MP config table
-  bool found = find_mp_config(&mp_floating_pointer_struct, &mp_config_table);
+  bool found = find_mp_config(&mp_fp_struct, &mp_config_table);
   if (!found)
     panic("Couldn't find a valid MP config table. Probably not an SMP system.");
 }

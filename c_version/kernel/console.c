@@ -1,13 +1,13 @@
 #include "kernel/console.h"
 
 void
-panic(char *msg)
+panic(char *fmt, ...)
 {
   // TODO:
 }
 
 void
-log(char *msg)
+log(char *fmt, ...)
 {
   // TODO:
 }
