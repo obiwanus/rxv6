@@ -9,11 +9,21 @@
 
 // Search for the floating pointer struct at [addr : addr + len bytes]
 static MP_FPStruct *
-mp_search(u32 addr, int len)
+mp_search(u32 phys_addr, int len)
 {
-  // for (u8 *p = P2V(addr); p < P2V(addr) + len; p += sizeof(MP_FPStruct)) {
-  //   // if (memcmp(p, "_MP_", 4))
-  // }
+  u8 *addr = P2V(phys_addr);
+  log("mp_search: Searching for an MP struct in range [%p : %p]", addr, addr + len);
+  for (u8 *p = addr; p < addr + len; p += sizeof(MP_FPStruct)) {
+    if (memcmp(p, "_MP_", 4) == 0) {
+      if (sum_bytes(p, sizeof(MP_FPStruct)) == 0) {
+        log("mp_search: Found at address %p", p);
+        return (MP_FPStruct *)p;
+      } else {
+        log("MP struct with a wrong checksum at %p", p);
+      }
+    }
+  }
+  log("mp_search: Not found");
   return NULL;  // not found
 }
 
@@ -26,22 +36,17 @@ mp_fp_struct_search()
   // Check the first KB of the extended BIOS data area (EBDA)
   {
     u32 addr = (BDA[0x0F] << 8) | (BDA[0x0E] << 4);
-    log("Searching for an MP struct in range [%p : %p]...", addr, addr + 1024);
     MP_FPStruct *result = mp_search(addr, 1024);
     if (result)
       return result;
-
-    log("Not found");
   }
 
   // Check the last KB of system base memory
   {
     u32 addr = ((BDA[0x14] << 8) | BDA[0x13]) * 1024;
-    log("Searching for an MP struct in range [%p : %p]", addr, addr + 1024);
     MP_FPStruct *result = mp_search(addr - 1024, 1024);
     if (result)
       return result;
-    log("Not found");
   }
 
   // Check the BIOS ROM between 0xE0000 and 0xFFFFF
