@@ -3,7 +3,7 @@
 
 #include "base.h"
 
-typedef struct MP_FloatingPointerStruct {
+typedef struct MP_FPStruct {
   u8 signature[4];                  // must be equal to "_MP_"
   void *mp_config_table_phys_addr;  // contains the address of MP_ConfigTable if present
   u8 length;
@@ -12,7 +12,7 @@ typedef struct MP_FloatingPointerStruct {
   u8 sys_config_type;
   u8 imcr_present;
   u8 reserved[3];
-} MP_FloatingPointerStruct;
+} MP_FPStruct;
 void mp_init();
 
 typedef struct MP_ConfigTable {

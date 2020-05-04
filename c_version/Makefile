@@ -57,10 +57,11 @@ build/bootblock: boot/loader.asm boot/loader_main.c
 	./sign.py build/bootblock
 
 KERNEL_OBJS = \
-	build/main.o \
 	build/spinlock.o \
 	build/memory.o \
-	build/mp.o
+	build/mp.o \
+	build/console.o \
+	build/main.o
 
 build/%.o: kernel/%.c
 	$(CC) $(CFLAGS) -c $^ -o $@

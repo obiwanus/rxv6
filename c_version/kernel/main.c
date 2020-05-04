@@ -1,3 +1,4 @@
+#include "kernel/console.h"
 #include "kernel/memory.h"
 #include "kernel/mp.h"
 

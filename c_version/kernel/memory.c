@@ -1,5 +1,7 @@
-#include "kernel/memory.h"
 #include "x86_asm.h"
+
+#include "kernel/console.h"
+#include "kernel/memory.h"
 
 // ==================================== Internal types ============================================
 
@@ -35,12 +37,6 @@ static KMap gKMap[] = {
 };
 
 // ==================================== Functions =================================================
-
-void
-panic(char *msg)
-{
-  // TODO
-}
 
 void
 memset(void *va, u8 pattern, int len)
