@@ -31,8 +31,9 @@ static KMemory gKMemory;
 static PDE *gKPageDir;
 
 static KMap gKMap[] = {
+    // {virt_addr, phys_addr, size_bytes, perm_flags}
     {KERNBASE, 0, EXT_MEM, PTE_W},                            // I/O space
-    {KERNLINK, V2P(KERNLINK), V2P(&kernel_data), 0},          // kernel text+rodata
+    {KERNLINK, V2P(KERNLINK), V2P(&kernel_data), PTE_W},      // kernel text+rodata
     {(u32)&kernel_data, V2P(&kernel_data), PHYS_TOP, PTE_W},  // kernel data+memory
     {DEV_SPACE, DEV_SPACE, 0, PTE_W},                         // more devices
 };

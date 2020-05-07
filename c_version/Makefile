@@ -11,7 +11,7 @@ QEMUOPTS = \
 	-m 512
 QEMUGDB = -gdb tcp::251000	# port must match that in .gdbinit
 
-qemu-gdb: build/xv6.img
+qemu-gdb: clean build/xv6.img
 	@echo "*** Now run gdb in another tab ***" 1>&2
 	$(QEMU) -nographic $(QEMUOPTS) -S $(QEMUGDB)
 
@@ -33,7 +33,7 @@ CFLAGS = \
 	-fno-omit-frame-pointer  \
 	-fno-stack-protector  \
 	-nostdinc \
-	-Oz -Wall -ggdb -Werror -Iinclude -m32 \
+	-Wall -ggdb -Werror -Iinclude -m32 \
 	-std=c18
 # -fno-pic 		= disable position-independent code
 # -no-pie 		= disable position-independent executable
@@ -52,7 +52,7 @@ LDFLAGS = -m elf_i386
 
 build/bootblock: boot/loader.asm boot/loader_main.c
 	nasm -f elf32 -g boot/loader.asm -o build/loader.o
-	$(CC) $(CFLAGS) -c boot/loader_main.c -o build/loader_main.o
+	$(CC) $(CFLAGS) -Oz -c boot/loader_main.c -o build/loader_main.o
 	ld $(LDFLAGS) -N -e start -Ttext 0x7C00 build/loader.o build/loader_main.o -o build/bootblock.o
 	objcopy -S -O binary -j .text build/bootblock.o build/bootblock
 	./sign.py build/bootblock

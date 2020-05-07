@@ -1,7 +1,9 @@
 set disassembly-flavor intel
-set $lastcs = -1
+set print pretty on
+set output-radix 16
 layout split
 
+set $lastcs = -1
 define hook-stop
   # There doesn't seem to be a good way to detect if we're in 16- or
   # 32-bit mode, but in 32-bit mode we always run with CS == 8 in the
@@ -25,5 +27,5 @@ end
 echo + target remote localhost:251000\n
 target remote localhost:251000
 
-echo + symbol-file build/kernel\n
-symbol-file build/kernel
+echo + symbol-file build/kernel_img\n
+symbol-file build/kernel_img

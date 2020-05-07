@@ -4,6 +4,8 @@ void
 panic(char *fmt, ...)
 {
   // TODO:
+  for (;;) {
+  }
 }
 
 void

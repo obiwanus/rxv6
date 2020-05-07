@@ -3,6 +3,12 @@
 #include "kernel/mp.h"
 
 void
+test_function()
+{
+  panic("Blah");
+}
+
+void
 kernel_start()
 {
   // Add the already mapped pages on the free list
@@ -12,8 +18,10 @@ kernel_start()
   init_global_kernel_page_dir();
   switch_to_kernel_page_dir();
 
-  // Detect other processors
-  mp_init();
+  test_function();
+
+  // // Detect other processors
+  // mp_init();
 
   // Temporary loop
   for (;;) {

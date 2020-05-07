@@ -3,6 +3,15 @@ TODO:
 
 DONE:
 
+7 May 2020
+- Found the source of the triple fault
+
+6 May 2020
+- More debugging. Posted a question on SO
+
+5 May 2020
+- Debugging triple fault after changing page dir
+
 4 May 2020
 - A good place for panic and kernel logging
 - A place for string operations
