@@ -22,6 +22,7 @@ extern entry_page_dir
 
 bits 32
 
+section .text
 ; The boot processor jumps here after executing the boot loader
 entry:
     ; Enable page size extension
@@ -45,4 +46,5 @@ entry:
     mov eax, kernel_start
     jmp eax
 
+section .bss
 stack:      resb KERN_STACK_SIZE

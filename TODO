@@ -3,6 +3,9 @@ TODO:
 
 DONE:
 
+8 May 2020
+- Found the reason my stack pointer was in the text section
+
 7 May 2020
 - Found the source of the triple fault
 
