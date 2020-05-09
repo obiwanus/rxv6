@@ -1,7 +1,7 @@
 #include "kernel/console.h"
 
 void
-panic(char *fmt, ...)
+panic(const char *func, char *fmt, ...)
 {
   // TODO:
   for (;;) {
@@ -9,7 +9,7 @@ panic(char *fmt, ...)
 }
 
 void
-log(char *fmt, ...)
+log(const char *func, const char *type, char *fmt, ...)
 {
   // TODO:
 }

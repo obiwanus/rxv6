@@ -88,7 +88,7 @@ map_range(PDE *page_dir, u32 va, u32 pa, u32 size, u32 perms)
       return false;
     }
     if (*pte & PTE_P) {
-      panic("Trying to remap an existing PTE");
+      PANIC("Trying to remap an existing PTE");
     }
     *pte = pa | perms | PTE_P;
   }
@@ -118,7 +118,7 @@ new_page_dir_with_kernel_mappings()
   memset(page_dir, 0, PAGE_SIZE);
 
   if (P2V(PHYS_TOP) > (void *)DEV_SPACE) {  // TODO: maybe we can check it elsewhere?
-    panic("PHYS_TOP is too high");
+    PANIC("PHYS_TOP is too high");
   }
 
   // Setup the kernel mappings
@@ -153,10 +153,10 @@ free_page(void *va)
 {
   // Validate the address
   if ((u32)va % PAGE_SIZE != 0) {
-    panic("free_page: va is not page-aligned");
+    PANIC("free_page: va is not page-aligned");
   }
   if ((u8 *)va < &kernel_end || V2P(va) >= PHYS_TOP) {
-    panic("free_page: va is out of range");
+    PANIC("free_page: va is out of range");
   }
 
   // Fill with 00010001 to catch references to freed memory

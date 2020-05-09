@@ -3,6 +3,8 @@
 
 #include "base.h"
 
+// ==================================== Types =====================================================
+
 typedef struct MP_FPStruct {
   u8 signature[4];                  // must be equal to "_MP_"
   void *mp_config_table_phys_addr;  // contains the address of MP_ConfigTable if present
@@ -13,7 +15,6 @@ typedef struct MP_FPStruct {
   u8 imcr_present;
   u8 reserved[3];
 } MP_FPStruct;
-void mp_init();
 
 typedef struct MP_ConfigTable {
   u8 signature[4];  // must be equal to "PCMP"
@@ -30,5 +31,9 @@ typedef struct MP_ConfigTable {
   u8 ext_table_checksum;
   u8 reserved;
 } MP_ConfigTable;
+
+// ==================================== Functions =================================================
+
+void mp_init();
 
 #endif  // XV6_MP_H

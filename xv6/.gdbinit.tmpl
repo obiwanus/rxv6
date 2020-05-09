@@ -1,4 +1,8 @@
 set $lastcs = -1
+set disassembly-flavor intel
+set print pretty on
+set output-radix 16
+layout split
 
 define hook-stop
   # There doesn't seem to be a good way to detect if we're in 16- or

@@ -26,10 +26,10 @@ memcmp(const u8 *va, const char *string, int len)
 }
 
 // Used for checksum check
-u32
+u8
 sum_bytes(u8 *va, int count)
 {
-  u32 result = 0;
+  u8 result = 0;
   for (int i = 0; i < count; ++i) {
     result += va[i];
   }
