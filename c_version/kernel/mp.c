@@ -2,10 +2,21 @@
 // See the MP specification 1.4
 
 #include "string.h"
+#include "x86_asm.h"
 
 #include "kernel/console.h"
 #include "kernel/memory.h"
 #include "kernel/mp.h"
+#include "kernel/param.h"
+#include "kernel/proc.h"
+
+// ==================================== Globals ===================================================
+
+CPU gCPUs[MAX_NUM_CPUS];
+int gNumCPUs = 0;
+u8 gIoApicId;
+
+// ==================================== Functions =================================================
 
 // Search for the floating pointer struct at [addr : addr + len bytes]
 static MP_FPStruct *
@@ -95,10 +106,46 @@ void
 mp_init()
 {
   MP_FPStruct *mp_fp_struct;
-  MP_ConfigTable *mp_config_table;
+  MP_ConfigTable *config;
 
   // Try to find an MP config table
-  bool found = find_mp_config(&mp_fp_struct, &mp_config_table);
+  bool found = find_mp_config(&mp_fp_struct, &config);
   if (!found)
     PANIC("Couldn't find a valid MP config table. Probably not an SMP system.");
+
+  // Go through the config table entries
+  for (u8 *entry = (u8 *)(config + 1); entry < (u8 *)config + config->length;) {
+    switch (*entry) {
+      case MP_ENTRY_PROC: {
+        // Add CPU
+        MP_ProcEntry *proc = (MP_ProcEntry *)entry;
+        if (gNumCPUs < MAX_NUM_CPUS) {
+          gCPUs[gNumCPUs].apic_id = proc->apic_id;
+          gNumCPUs++;
+        }
+        entry += sizeof(*proc);
+      } break;
+      case MP_ENTRY_IOAPIC: {
+        // Remember IO APIC (currently assuming only one)
+        MP_IoApicEntry *io_apic = (MP_IoApicEntry *)entry;
+        gIoApicId = io_apic->apic_id;
+        entry += sizeof(*io_apic);
+      } break;
+      case MP_ENTRY_BUS:
+      case MP_ENTRY_IOINTR:
+      case MP_ENTRY_LINTR: {
+        // Ignore other entries
+        entry += 8;
+      } break;
+      default: {
+        PANIC("Incorrect entry in the MP config table");
+      } break;
+    }
+  }
+
+  if (mp_fp_struct->imcr_present) {
+    // Bochs doesn't support IMCR, so this doesn't run on Bochs
+    out_u8(0x22, 0x70);             // select IMCR
+    out_u8(0x23, in_u8(0x23) | 1);  // mask external interrupts
+  }
 }
