@@ -5,6 +5,7 @@ DONE:
 
 9 May 2020
 - Panic and log macros
+- Find MP configuration
 
 8 May 2020
 - Found the reason my stack pointer was in the text section

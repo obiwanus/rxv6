@@ -6,8 +6,8 @@
 // ==================================== Types =====================================================
 
 typedef struct MP_FPStruct {
-  u8 signature[4];                  // must be equal to "_MP_"
-  void *mp_config_table_phys_addr;  // contains the address of MP_ConfigTable if present
+  u8 signature[4];               // must be equal to "_MP_"
+  void *config_table_phys_addr;  // contains the address of MP_ConfigTable if present
   u8 length;
   u8 spec_rev;
   u8 checksum;

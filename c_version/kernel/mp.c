@@ -59,13 +59,36 @@ mp_fp_struct_search()
 static bool
 find_mp_config(MP_FPStruct **p_mp_struct, MP_ConfigTable **p_mp_table)
 {
+  // Find the FP struct
   MP_FPStruct *mp_struct = mp_fp_struct_search();
   if (mp_struct == 0) {
     LOG_ERROR("Unable to find the floating pointer struct");
     return false;
   }
-  // TODO
-  return false;
+  if (mp_struct->config_table_phys_addr == 0) {
+    LOG_ERROR("We do not support default MP configurations");
+    return false;
+  }
+
+  // Get the configuration table
+  MP_ConfigTable *config = (MP_ConfigTable *)P2V(mp_struct->config_table_phys_addr);
+  if (memcmp(config->signature, "PCMP", 4) != 0) {
+    LOG_ERROR("Invalid MP config table signature");
+    return false;
+  }
+  if (config->version != 1 && config->version != 4) {
+    LOG_ERROR("Unsupported config version: %d", config->version);
+    return false;
+  }
+  if (sum_bytes((u8 *)config, config->length) != 0) {
+    LOG_ERROR("Invalid MP config table checksum");
+    return false;
+  }
+
+  // Found everything
+  *p_mp_struct = mp_struct;
+  *p_mp_table = config;
+  return true;
 }
 
 void
