@@ -3,9 +3,16 @@ TODO:
 
 DONE:
 
+11 May 2020
+- Fix another paging issue
+
+10 May 2020
+- Init LAPIC
+
 9 May 2020
 - Panic and log macros
 - Find MP configuration
+- LAPIC init
 
 8 May 2020
 - Found the reason my stack pointer was in the text section

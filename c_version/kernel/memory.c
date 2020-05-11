@@ -31,7 +31,7 @@ static KMemory gKMemory;
 static PDE *gKPageDir;
 
 static KMap gKMap[] = {
-    // {virt_addr, phys_addr, size_bytes, perm_flags}
+    // {virt_addr, phys_addr, end_phys_addr, perm_flags}
     {KERNBASE, 0, EXT_MEM, PTE_W},                            // I/O space
     {KERNLINK, V2P(KERNLINK), V2P(&kernel_data), 0},          // kernel text+rodata
     {(u32)&kernel_data, V2P(&kernel_data), PHYS_TOP, PTE_W},  // kernel data+memory
@@ -67,7 +67,7 @@ map_range(PDE *page_dir, u32 va, u32 pa, u32 size, u32 perms)
   u8 *start = ROUND_DOWN_PAGE(va);
   u8 *end = ROUND_UP_PAGE(va + size);
 
-  for (u8 *addr = start; addr < end; addr += PAGE_SIZE, pa += PAGE_SIZE) {
+  for (u8 *addr = start; addr != end; addr += PAGE_SIZE, pa += PAGE_SIZE) {
     // Allocate the page table for va if not present
     {
       PDE *pde = page_dir + PAGE_DIR_INDEX(addr);

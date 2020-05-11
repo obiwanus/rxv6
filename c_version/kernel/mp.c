@@ -16,6 +16,8 @@ CPU gCPUs[MAX_NUM_CPUS];
 int gNumCPUs = 0;
 u8 gIoApicId;
 
+extern u32 *gLAPIC;  // defined in kernel/lapic.c
+
 // ==================================== Functions =================================================
 
 // Search for the floating pointer struct at [addr : addr + len bytes]
@@ -112,6 +114,8 @@ mp_init()
   bool found = find_mp_config(&mp_fp_struct, &config);
   if (!found)
     PANIC("Couldn't find a valid MP config table. Probably not an SMP system.");
+
+  gLAPIC = (u32 *)config->lapic_addr;
 
   // Go through the config table entries
   for (u8 *entry = (u8 *)(config + 1); entry < (u8 *)config + config->length;) {

@@ -5,8 +5,9 @@ all: clean build/xv6.img
 # ======================== EMULATION =========================
 CPUS = 2
 QEMU = qemu-system-i386
+# QEMU_DEBUG = -no-shutdown -no-reboot -d int
 QEMUOPTS = \
-	-drive file=build/xv6.img,index=0,media=disk,format=raw \
+	-drive file=build/xv6.img,index=0,media=disk,format=raw $(QEMU_DEBUG) \
 	-smp $(CPUS) \
 	-m 512
 QEMUGDB = -gdb tcp::251000	# port must match that in .gdbinit
@@ -62,6 +63,7 @@ KERNEL_OBJS = \
 	build/kernel/spinlock.o \
 	build/kernel/mp.o \
 	build/kernel/console.o \
+	build/kernel/lapic.o \
 	build/kernel/main.o
 
 COMMON_OBJS = \

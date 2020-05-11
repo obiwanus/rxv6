@@ -1,4 +1,5 @@
 #include "kernel/console.h"
+#include "kernel/lapic.h"
 #include "kernel/memory.h"
 #include "kernel/mp.h"
 
@@ -14,6 +15,9 @@ kernel_start()
 
   // Detect other processors
   mp_init();
+
+  // Init the local interrupt controller
+  lapic_init();
 
   // Temporary loop
   for (;;) {
