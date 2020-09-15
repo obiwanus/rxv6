@@ -1,3 +1,3 @@
 # rxv6
 
-An attempt to rewrite xv6 in Rust
+An attempt to rewrite the xv6 operating system from scratch
