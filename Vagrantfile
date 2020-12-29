@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "ubuntu/focal64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -65,11 +65,12 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
-    apt-get install -y build-essential gdb git gcc-multilib
+    apt-get install -y build-essential gdb git gcc-multilib nasm
     apt-get install -y libsdl1.2-dev libtool-bin libglib2.0-dev libz-dev libpixman-1-dev
 
     bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-    apt-get install -y clang-9
+    apt-get install -y clang
+    apt-get install -y qemu-system-i386
 
     cat << EOF
 add-auto-load-safe-path /home/vagrant/src/xv6/.gdbinit

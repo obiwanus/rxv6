@@ -24,7 +24,7 @@ qemu-gdb: clean build/xv6.img
 clean:
 	rm -rf build && mkdir -p build/kernel
 
-CC = clang-9
+CC = clang
 CFLAGS = \
 	-fno-pic \
 	-fno-pie \
@@ -56,7 +56,7 @@ build/bootblock: boot/loader.asm boot/loader_main.c
 	$(CC) $(CFLAGS) -Oz -c boot/loader_main.c -o build/loader_main.o
 	ld $(LDFLAGS) -N -e start -Ttext 0x7C00 build/loader.o build/loader_main.o -o build/bootblock.o
 	objcopy -S -O binary -j .text build/bootblock.o build/bootblock
-	./sign.py build/bootblock
+	python3 sign.py build/bootblock
 
 KERNEL_OBJS = \
 	build/kernel/memory.o \
