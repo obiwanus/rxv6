@@ -30,6 +30,11 @@
         "file": "/Users/iivanov/projects/rxv6/c_version/kernel/main.c"
     },
     {
+        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/c_version/include -m32 -std=c18 -o build/kernel/lapic.o /Users/iivanov/projects/rxv6/c_version/kernel/lapic.c",
+        "directory": "/Users/iivanov/projects/rxv6/c_version",
+        "file": "/Users/iivanov/projects/rxv6/c_version/kernel/lapic.c"
+    },
+    {
         "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/c_version/include -m32 -std=c18 -o build/string.o /Users/iivanov/projects/rxv6/c_version/string.c",
         "directory": "/Users/iivanov/projects/rxv6/c_version",
         "file": "/Users/iivanov/projects/rxv6/c_version/string.c"
