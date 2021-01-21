@@ -24,7 +24,7 @@ qemu-gdb: clean build/xv6.img
 clean:
 	rm -rf build && mkdir -p build/kernel
 
-CC = clang
+CC = clang-10
 CFLAGS = \
 	-fno-pic \
 	-fno-pie \
