@@ -1,108 +1,152 @@
 TODO:
 
+- Rename c_version to something else [10]
+- Read the code of entry [15]
+- Read the code of paging setup [20]
 
 DONE:
 
+----------------
+27 Jan 2021, Wed
+- Read the chapter on Page tables [20]-(40)
+
+--------
+Jan 2021
+- Step through the code
+- Reread the code
+--- Original xv6 code
+--- My xv6 code
+- Reread the corresponding book sections
+
+-----------
 11 May 2020
 - Fix another paging issue
 
+----------
 10 May 2020
 - Init LAPIC
 
+----------
 9 May 2020
 - Panic and log macros
 - Find MP configuration
 - LAPIC init
 
+----------
 8 May 2020
 - Found the reason my stack pointer was in the text section
 
+----------
 7 May 2020
 - Found the source of the triple fault
 
+----------
 6 May 2020
 - More debugging. Posted a question on SO
 
+----------
 5 May 2020
 - Debugging triple fault after changing page dir
 
+----------
 4 May 2020
 - A good place for panic and kernel logging
 - A place for string operations
 
+----------
 3 May 2020
 - Search for MP config (WIP})
 
+----------
 2 May 2020
 - Reading the MP spec
 
+----------
 1 May 2020
 - Reading the MP spec
 
+------------
 23 Apr 2020
 - Reading about the APIC and MPS
 
+------------
 22 Apr 2020
 - memset
 - reformat definitions
 
+------------
 21 Apr 2020
 - WIP kernel page tables
 
+------------
 15 Apr 2020
 - WIP kernel page tables
 
+------------
 14 Apr 2020
 - WIP kernel page tables
 
+------------
 13 Apr 2020
 - Proceeding with kernel memory init
 - Fixed an obscure bug with the linker-script-defined symbol kernel_end
 - Added a module for allocating memory
 - Use the memory module for everything memory-related
 
+------------
 12 Apr 2020
 - Set up a few sublime snippets
 - Starting kernel memory init
 
+------------
 11 Apr 2020
 - Jumped into main successfully. The reason was the wrong jump instruction
 
+------------
 10 Apr 2020
 - Tried to enable paging in entry, but couldn't jump into main afterwards.
   Perhaps a paging bug
 
+------------
 9 April 2020
 - Checked why reading more data from disk didn't work before, but
   it actually worked this time
 
+------------
 8 April 2020
 - Checked that the elf header part is loaded into memory successfully
 - Load the stub entry point from disk into memory and jump into it
 - DONE with the boot loader!
 
+------------
 7 April 2020
 - The bootloader now fits in the 512 bytes but doesn't jump to entry
 
+------------
 6 April 2020
 - Understand the basics of extended asm
 - Read about the structure of ELF files
 
+------------
 5 April 2020
 - Code for reading data from disk
 
+------------
 4 April 2020
 - Read about the IDE drivers
 - Figure out how the data is read from disk
 
+------------
 29 March 2020
 - Set up clang-format
 
+------------
 28 March 2020
 - Read about linker scripts to be exposed to the options
 - Write the linker script
 - Compile an ELF binary with an entry point
 - Place the binary to the disk starting at sector 1
 
+------------
 27 March 2020
 - A stub kernel entry point
