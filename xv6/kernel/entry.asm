@@ -42,7 +42,9 @@ entry:
     ; Set up the stack pointer
     mov esp, stack + KERN_STACK_SIZE
 
-    ; Jump to kernel_start and switch to high addresses
+    ; Jump to kernel_start and switch to high addresses.
+    ; Doing it as an indirect jump because otherwise the assembler
+    ; could generate a PC-relative jump
     mov eax, kernel_start
     jmp eax
 

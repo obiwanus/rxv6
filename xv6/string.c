@@ -1,105 +1,37 @@
-#include "types.h"
-#include "x86.h"
+#include "x86_asm.h"
 
-void*
-memset(void *dst, int c, uint n)
+#include "string.h"
+
+void
+memset(void *va, u8 pattern, int len)
 {
-  if ((int)dst%4 == 0 && n%4 == 0){
-    c &= 0xFF;
-    stosl(dst, (c<<24)|(c<<16)|(c<<8)|c, n/4);
-  } else
-    stosb(dst, c, n);
-  return dst;
+  if ((u32)va % 4 == 0 && len % 4 == 0) {
+    // Store by dword
+    u32 dw = (u32)pattern;
+    store_u32s(va, (dw << 24) | (dw << 16) | (dw << 8) | dw, len / 4);
+  } else {
+    store_u8s(va, pattern, len);
+  }
 }
 
 int
-memcmp(const void *v1, const void *v2, uint n)
+memcmp(const u8 *va, const char *string, int len)
 {
-  const uchar *s1, *s2;
-
-  s1 = v1;
-  s2 = v2;
-  while(n-- > 0){
-    if(*s1 != *s2)
-      return *s1 - *s2;
-    s1++, s2++;
+  for (int i = 0; i < len; ++i) {
+    int diff = va[i] - string[i];
+    if (diff != 0)
+      return diff;
   }
-
   return 0;
 }
 
-void*
-memmove(void *dst, const void *src, uint n)
+// Used for checksum check
+u8
+sum_bytes(u8 *va, int count)
 {
-  const char *s;
-  char *d;
-
-  s = src;
-  d = dst;
-  if(s < d && s + n > d){
-    s += n;
-    d += n;
-    while(n-- > 0)
-      *--d = *--s;
-  } else
-    while(n-- > 0)
-      *d++ = *s++;
-
-  return dst;
+  u8 result = 0;
+  for (int i = 0; i < count; ++i) {
+    result += va[i];
+  }
+  return result;
 }
-
-// memcpy exists to placate GCC.  Use memmove.
-void*
-memcpy(void *dst, const void *src, uint n)
-{
-  return memmove(dst, src, n);
-}
-
-int
-strncmp(const char *p, const char *q, uint n)
-{
-  while(n > 0 && *p && *p == *q)
-    n--, p++, q++;
-  if(n == 0)
-    return 0;
-  return (uchar)*p - (uchar)*q;
-}
-
-char*
-strncpy(char *s, const char *t, int n)
-{
-  char *os;
-
-  os = s;
-  while(n-- > 0 && (*s++ = *t++) != 0)
-    ;
-  while(n-- > 0)
-    *s++ = 0;
-  return os;
-}
-
-// Like strncpy but guaranteed to NUL-terminate.
-char*
-safestrcpy(char *s, const char *t, int n)
-{
-  char *os;
-
-  os = s;
-  if(n <= 0)
-    return os;
-  while(--n > 0 && (*s++ = *t++) != 0)
-    ;
-  *s = 0;
-  return os;
-}
-
-int
-strlen(const char *s)
-{
-  int n;
-
-  for(n = 0; s[n]; n++)
-    ;
-  return n;
-}
-
