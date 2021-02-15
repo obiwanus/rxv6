@@ -1,0 +1,9 @@
+---
+BasedOnStyle: Google
+ColumnLimit: 100
+AlwaysBreakAfterDefinitionReturnType: true
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: true
+  SplitEmptyFunction: false
+IncludeBlocks: Preserve
