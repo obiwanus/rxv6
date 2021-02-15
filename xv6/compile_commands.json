@@ -1,42 +1,42 @@
 [
     {
-        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/c_version/include -m32 -std=c18 -Oz -o build/loader_main.o /Users/iivanov/projects/rxv6/c_version/boot/loader_main.c",
-        "directory": "/Users/iivanov/projects/rxv6/c_version",
-        "file": "/Users/iivanov/projects/rxv6/c_version/boot/loader_main.c"
+        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/xv6/include -m32 -std=c18 -Oz -o build/loader_main.o /Users/iivanov/projects/rxv6/xv6/boot/loader_main.c",
+        "directory": "/Users/iivanov/projects/rxv6/xv6",
+        "file": "/Users/iivanov/projects/rxv6/xv6/boot/loader_main.c"
     },
     {
-        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/c_version/include -m32 -std=c18 -o build/kernel/memory.o /Users/iivanov/projects/rxv6/c_version/kernel/memory.c",
-        "directory": "/Users/iivanov/projects/rxv6/c_version",
-        "file": "/Users/iivanov/projects/rxv6/c_version/kernel/memory.c"
+        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/xv6/include -m32 -std=c18 -o build/kernel/memory.o /Users/iivanov/projects/rxv6/xv6/kernel/memory.c",
+        "directory": "/Users/iivanov/projects/rxv6/xv6",
+        "file": "/Users/iivanov/projects/rxv6/xv6/kernel/memory.c"
     },
     {
-        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/c_version/include -m32 -std=c18 -o build/kernel/spinlock.o /Users/iivanov/projects/rxv6/c_version/kernel/spinlock.c",
-        "directory": "/Users/iivanov/projects/rxv6/c_version",
-        "file": "/Users/iivanov/projects/rxv6/c_version/kernel/spinlock.c"
+        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/xv6/include -m32 -std=c18 -o build/kernel/spinlock.o /Users/iivanov/projects/rxv6/xv6/kernel/spinlock.c",
+        "directory": "/Users/iivanov/projects/rxv6/xv6",
+        "file": "/Users/iivanov/projects/rxv6/xv6/kernel/spinlock.c"
     },
     {
-        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/c_version/include -m32 -std=c18 -o build/kernel/mp.o /Users/iivanov/projects/rxv6/c_version/kernel/mp.c",
-        "directory": "/Users/iivanov/projects/rxv6/c_version",
-        "file": "/Users/iivanov/projects/rxv6/c_version/kernel/mp.c"
+        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/xv6/include -m32 -std=c18 -o build/kernel/mp.o /Users/iivanov/projects/rxv6/xv6/kernel/mp.c",
+        "directory": "/Users/iivanov/projects/rxv6/xv6",
+        "file": "/Users/iivanov/projects/rxv6/xv6/kernel/mp.c"
     },
     {
-        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/c_version/include -m32 -std=c18 -o build/kernel/console.o /Users/iivanov/projects/rxv6/c_version/kernel/console.c",
-        "directory": "/Users/iivanov/projects/rxv6/c_version",
-        "file": "/Users/iivanov/projects/rxv6/c_version/kernel/console.c"
+        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/xv6/include -m32 -std=c18 -o build/kernel/console.o /Users/iivanov/projects/rxv6/xv6/kernel/console.c",
+        "directory": "/Users/iivanov/projects/rxv6/xv6",
+        "file": "/Users/iivanov/projects/rxv6/xv6/kernel/console.c"
     },
     {
-        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/c_version/include -m32 -std=c18 -o build/kernel/main.o /Users/iivanov/projects/rxv6/c_version/kernel/main.c",
-        "directory": "/Users/iivanov/projects/rxv6/c_version",
-        "file": "/Users/iivanov/projects/rxv6/c_version/kernel/main.c"
+        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/xv6/include -m32 -std=c18 -o build/kernel/main.o /Users/iivanov/projects/rxv6/xv6/kernel/main.c",
+        "directory": "/Users/iivanov/projects/rxv6/xv6",
+        "file": "/Users/iivanov/projects/rxv6/xv6/kernel/main.c"
     },
     {
-        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/c_version/include -m32 -std=c18 -o build/kernel/lapic.o /Users/iivanov/projects/rxv6/c_version/kernel/lapic.c",
-        "directory": "/Users/iivanov/projects/rxv6/c_version",
-        "file": "/Users/iivanov/projects/rxv6/c_version/kernel/lapic.c"
+        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/xv6/include -m32 -std=c18 -o build/kernel/lapic.o /Users/iivanov/projects/rxv6/xv6/kernel/lapic.c",
+        "directory": "/Users/iivanov/projects/rxv6/xv6",
+        "file": "/Users/iivanov/projects/rxv6/xv6/kernel/lapic.c"
     },
     {
-        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/c_version/include -m32 -std=c18 -o build/string.o /Users/iivanov/projects/rxv6/c_version/string.c",
-        "directory": "/Users/iivanov/projects/rxv6/c_version",
-        "file": "/Users/iivanov/projects/rxv6/c_version/string.c"
+        "command": "cc -c -fno-pic -fno-pie -fno-builtin -fno-strict-aliasing -fno-omit-frame-pointer -fno-stack-protector -nostdinc -Wall -ggdb -Werror -I/Users/iivanov/projects/rxv6/xv6/include -m32 -std=c18 -o build/string.o /Users/iivanov/projects/rxv6/xv6/string.c",
+        "directory": "/Users/iivanov/projects/rxv6/xv6",
+        "file": "/Users/iivanov/projects/rxv6/xv6/string.c"
     }
 ]

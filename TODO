@@ -1,13 +1,17 @@
 TODO:
 
-- Rename c_version to something else [10]
-- Read the code of entry [15]
 - Read the code of paging setup [20]
 
 DONE:
 
 ----------------
+15 Feb 2021, Mon
+- Some cleanup
+
+----------------
 28 Jan 2021, Thu
+- Rename c_version to something else [10]-(10)
+- Read the code of entry [15]-(20)
 
 ----------------
 27 Jan 2021, Wed
