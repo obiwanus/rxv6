@@ -50,16 +50,14 @@ mp_fp_struct_search()
   {
     u32 addr = ((BDA[0x0F] << 8) | BDA[0x0E]) << 4;
     MP_FPStruct *result = mp_search(addr, 1024);
-    if (result)
-      return result;
+    if (result) return result;
   }
 
   // Check the last KB of system base memory
   {
     u32 addr = ((BDA[0x14] << 8) | BDA[0x13]) * 1024;
     MP_FPStruct *result = mp_search(addr - 1024, 1024);
-    if (result)
-      return result;
+    if (result) return result;
   }
 
   // Check the BIOS ROM between 0xE0000 and 0xFFFFF
@@ -112,8 +110,9 @@ mp_init()
 
   // Try to find an MP config table
   bool found = find_mp_config(&mp_fp_struct, &config);
-  if (!found)
+  if (!found) {
     PANIC("Couldn't find a valid MP config table. Probably not an SMP system.");
+  }
 
   gLAPIC = (u32 *)config->lapic_addr;
 

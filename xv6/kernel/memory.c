@@ -13,7 +13,6 @@ typedef struct FreePage {
 typedef struct KMemory {
   Spinlock lock;
   FreePage *free_list;
-  bool use_lock;
 } KMemory;
 
 typedef struct KMap {
@@ -27,10 +26,10 @@ typedef struct KMap {
 
 extern u8 kernel_data;  // defined by linker
 
-static KMemory gKMemory;
-static PDE *gKPageDir;
+internal KMemory gKMemory;
+internal PDE *gKPageDir;
 
-static KMap gKMap[] = {
+internal KMap gKMap[] = {
     // {virt_addr, phys_addr, end_phys_addr, perm_flags}
     {KERNBASE, 0, EXT_MEM, PTE_W},                            // I/O space
     {KERNLINK, V2P(KERNLINK), V2P(&kernel_data), 0},          // kernel text+rodata
@@ -47,7 +46,7 @@ free_page_dir(PDE *page_dir)
 }
 
 // Uses the page directory to get the page table entry for a virtual address
-static PTE *
+internal PTE *
 get_pte_for_va(PDE *page_dir, const void *va)
 {
   PDE *pde = page_dir + PAGE_DIR_INDEX(va);
@@ -60,7 +59,7 @@ get_pte_for_va(PDE *page_dir, const void *va)
 
 // Maps all the pages from [va: va+size] to [pa: pa+size].
 // va and size might not be page-aligned
-static bool
+internal bool
 map_range(PDE *page_dir, u32 va, u32 pa, u32 size, u32 perms)
 {
   // Get the page-aligned virtual address range
