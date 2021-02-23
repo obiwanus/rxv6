@@ -70,3 +70,5 @@ ubuntu-bionic-18.04-cloudimg-console.log
 build
 .clangd
 .vscode
+
+.DS_Store
