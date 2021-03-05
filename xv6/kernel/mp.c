@@ -115,6 +115,7 @@ mp_init()
   }
 
   gLAPIC = (u32 *)config->lapic_addr;
+  bool io_apic_seen = false;
 
   // Go through the config table entries
   for (u8 *entry = (u8 *)(config + 1); entry < (u8 *)config + config->length;) {
@@ -129,9 +130,13 @@ mp_init()
         entry += sizeof(*proc);
       } break;
       case MP_ENTRY_IOAPIC: {
-        // Remember IO APIC (currently assuming only one)
+        if (io_apic_seen) {
+          PANIC("Currently only supporting systems with one IO APIC");
+        }
+        // Remember IO APIC
         MP_IoApicEntry *io_apic = (MP_IoApicEntry *)entry;
         gIoApicId = io_apic->apic_id;
+        io_apic_seen = true;
         entry += sizeof(*io_apic);
       } break;
       case MP_ENTRY_BUS:
@@ -146,6 +151,7 @@ mp_init()
     }
   }
 
+  // Switch to Symmetric I/O mode (? was unable to confirm this is what happens but it seems so)
   if (mp_fp_struct->imcr_present) {
     // Bochs doesn't support IMCR, so this doesn't run on Bochs
     out_u8(0x22, 0x70);             // select IMCR

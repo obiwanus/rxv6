@@ -3,10 +3,21 @@ TODO:
 
 DONE:
 
+---------------
+5 Mar 2021, Fri
+
+---------------
+4 Mar 2021, Thu
+- Reading the MP spec
+
+----------------
+24 Feb 2021, Wed
+- Try to attach to qemu from vscode [30]-(40)
+
 ----------------
 23 Feb 2021, Tue
 - Read the code of paging setup [20]-(30)
-
+- Some cosmetic changes
 
 ----------------
 15 Feb 2021, Mon
